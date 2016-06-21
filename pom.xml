@@ -4,18 +4,19 @@
 	<artifactId>SpringMVCTest</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<servlet.version>3.1.0</servlet.version>
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<spring.security.version>4.1.0.RELEASE</spring.security.version>
+		<spring.data.jpa.version>1.10.1.RELEASE</spring.data.jpa.version>
 		<thymeleaf.version>2.1.2.RELEASE</thymeleaf.version>
 		<thymeleaf.extras.springsecurity4.version>2.1.2.RELEASE</thymeleaf.extras.springsecurity4.version>
 		<log4j.version>2.5</log4j.version>
 		<mysql.version>5.1.39</mysql.version>
 		<hikaricp.version>2.4.6</hikaricp.version>
-		<hibernate.version>5.2.0.Final</hibernate.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
@@ -51,6 +52,16 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		    <version>${spring.data.jpa.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -62,7 +73,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -75,9 +86,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
+			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-hikaricp</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.hibernate</groupId> -->
+		<!-- <artifactId>hibernate-core</artifactId> -->
+		<!-- <version>${hibernate.version}</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.thymeleaf</groupId>

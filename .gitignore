@@ -2,3 +2,7 @@ target/
 .project
 .settings/
 .classpath
+<<<<<<< HEAD
+=======
+build.sh
+>>>>>>> refs/remotes/origin/master

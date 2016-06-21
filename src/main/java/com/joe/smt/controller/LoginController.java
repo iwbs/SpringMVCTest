@@ -86,6 +86,12 @@ public class LoginController {
 		return "home";
 	}
 
+	@RequestMapping("/")
+	public String empty(RedirectAttributes redirectAttributes) {
+//		redirectAttributes.addFlashAttribute("username");
+		return "redirect:home";
+	}
+
 	@RequestMapping("/error")
 	public String error(RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute("username");
