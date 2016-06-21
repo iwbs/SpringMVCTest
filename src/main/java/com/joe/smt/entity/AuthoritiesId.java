@@ -11,6 +11,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AuthoritiesId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9039968520405465773L;
 	private String username;
 	private String authority;
 

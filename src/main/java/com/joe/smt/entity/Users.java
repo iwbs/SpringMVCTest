@@ -21,6 +21,10 @@ import javax.persistence.TemporalType;
 @Table(name = "users", catalog = "springmvctest")
 public class Users implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4815192284914382809L;
 	private String username;
 	private String password;
 	private String displayname;
@@ -37,6 +41,15 @@ public class Users implements java.io.Serializable {
 		this.password = password;
 		this.displayname = displayname;
 		this.createdate = createdate;
+		this.enabled = enabled;
+	}
+	
+	public Users(String username, String password, String displayname, Date createdate, Date updatedate, boolean enabled) {
+		this.username = username;
+		this.password = password;
+		this.displayname = displayname;
+		this.createdate = createdate;
+		this.updatedate = updatedate;
 		this.enabled = enabled;
 	}
 

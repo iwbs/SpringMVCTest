@@ -20,6 +20,10 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "authorities", catalog = "springmvctest", uniqueConstraints = @UniqueConstraint(columnNames = { "username", "authority" }))
 public class Authorities implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4944408531749831198L;
 	private AuthoritiesId id;
 	private Users users;
 
