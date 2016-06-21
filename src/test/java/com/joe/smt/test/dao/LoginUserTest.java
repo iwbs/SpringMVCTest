@@ -30,7 +30,7 @@ public class LoginUserTest {
 
 	@Test
 	public void checkUser() {
-		Users users = loginUserRepository.findByUsername("joseph@gmail.com");
+		Users users = loginUserRepository.findOne("joseph@gmail.com");
 		logger.info("User ID: " + users.getUsername());
 	}
 
