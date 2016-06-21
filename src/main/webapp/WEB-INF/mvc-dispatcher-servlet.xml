@@ -1,11 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd">
 
@@ -23,7 +24,7 @@
 	<!-- **************************************************************** -->
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.joe.smt" />
-
+	
 
 	<!-- **************************************************************** -->
 	<!-- SPRING MVC LOCALE CONFIGURATION -->
@@ -60,26 +61,43 @@
 	<!-- **************************************************************** -->
 	<!-- DATASOURCE -->
 	<!-- **************************************************************** -->
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-	    <property name="maximumPoolSize" value="2" />
-	    <property name="idleTimeout" value="30000" />
-	    <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
-	    <property name="dataSourceProperties">
-	        <props>
-	            <prop key="url">jdbc:mysql://localhost:3306/springmvctest</prop>
-	            <prop key="user">iwbs</prop>
-	            <prop key="password"></prop>
-	            <prop key="cachePrepStmts">true</prop>
-	            <prop key="prepStmtCacheSize">250</prop>
-	            <prop key="prepStmtCacheSqlLimit">2048</prop>
-	        </props>
-	    </property>
-	</bean>
+<!-- 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> -->
+<!-- 	    <property name="maximumPoolSize" value="2" /> -->
+<!-- 	    <property name="idleTimeout" value="30000" /> -->
+<!-- 	    <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" /> -->
+<!-- 	    <property name="dataSourceProperties"> -->
+<!-- 	        <props> -->
+<!-- 	            <prop key="url">jdbc:mysql://localhost:3306/springmvctest</prop> -->
+<!-- 	            <prop key="user">iwbs</prop> -->
+<!-- 	            <prop key="password"></prop> -->
+<!-- 	            <prop key="cachePrepStmts">true</prop> -->
+<!-- 	            <prop key="prepStmtCacheSize">250</prop> -->
+<!-- 	            <prop key="prepStmtCacheSqlLimit">2048</prop> -->
+<!-- 	        </props> -->
+<!-- 	    </property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close"> -->
+<!-- 	    <constructor-arg ref="hikariConfig" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-	    <constructor-arg ref="hikariConfig" />
+	
+	<!-- **************************************************************** -->
+	<!-- JPA -->
+	<!-- **************************************************************** -->
+	<jpa:repositories base-package="com.joe.smt.repository" />
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<property name="persistenceUnitName" value="springmvctest" />
 	</bean>
 
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
 
 	<!-- **************************************************************** -->
 	<!-- THYMELEAF-SPECIFIC ARTIFACTS -->
@@ -109,31 +127,27 @@
 	<!-- **************************************************************** -->
 	<!-- SPRING SECURITY -->
 	<!-- **************************************************************** -->
-	<security:http auto-config="true">
-		<security:intercept-url pattern="/login" access="permitAll" />
-		<security:intercept-url pattern="/home" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-		<security:intercept-url pattern="/settings" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-		<security:form-login 
-			username-parameter="username" 
-			password-parameter="password" 
-			login-page="/login" 
-			login-processing-url="/check" 
-			authentication-failure-url="/loginFailed"
-			default-target-url="/home" />
-		<security:logout invalidate-session="true" delete-cookies="JSESSIONID" logout-url="/logout" logout-success-url="/greeting" />
-		<security:session-management invalid-session-url="/login" />
-		<security:access-denied-handler error-page="/accessDenied" />
-	</security:http>
+<!-- 	<security:http auto-config="true"> -->
+<!-- 		<security:intercept-url pattern="/login" access="permitAll" /> -->
+<!-- 		<security:intercept-url pattern="/home" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" /> -->
+<!-- 		<security:intercept-url pattern="/settings" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" /> -->
+<!-- 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" /> -->
+<!-- 		<security:form-login  -->
+<!-- 			username-parameter="username"  -->
+<!-- 			password-parameter="password"  -->
+<!-- 			login-page="/login"  -->
+<!-- 			login-processing-url="/check"  -->
+<!-- 			authentication-failure-url="/loginFailed" -->
+<!-- 			default-target-url="/home" /> -->
+<!-- 		<security:logout invalidate-session="true" delete-cookies="JSESSIONID" logout-url="/logout" logout-success-url="/greeting" /> -->
+<!-- 		<security:session-management invalid-session-url="/login" /> -->
+<!-- 		<security:access-denied-handler error-page="/accessDenied" /> -->
+<!-- 	</security:http> -->
 
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:password-encoder hash="bcrypt" />
-<!-- 			<security:user-service> -->
-<!-- 				<security:user name="joseph" password="5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" authorities="ROLE_ADMIN" /> -->
-<!-- 				<security:user name="user" password="5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" authorities="ROLE_USER" /> -->
-<!-- 			</security:user-service> -->
-			<security:jdbc-user-service data-source-ref="dataSource" />
-		</security:authentication-provider>
-	</security:authentication-manager>
+<!-- 	<security:authentication-manager> -->
+<!-- 		<security:authentication-provider> -->
+<!-- 			<security:password-encoder hash="bcrypt" /> -->
+<!-- 			<security:jdbc-user-service data-source-ref="dataSource" /> -->
+<!-- 		</security:authentication-provider> -->
+<!-- 	</security:authentication-manager> -->
 </beans>
