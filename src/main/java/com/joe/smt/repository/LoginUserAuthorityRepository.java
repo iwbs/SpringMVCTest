@@ -4,11 +4,11 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.joe.smt.entity.Authorities;
 
-@Repository
+@Transactional
 public interface LoginUserAuthorityRepository extends CrudRepository<Authorities, String> {
 
 	@Query("select a.id.authority from Authorities a where a.id.username = ?1")

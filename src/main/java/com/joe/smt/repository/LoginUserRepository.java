@@ -1,11 +1,11 @@
 package com.joe.smt.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.joe.smt.entity.Users;
 
-@Repository
+@Transactional
 public interface LoginUserRepository extends CrudRepository<Users, String> {
 
 }
