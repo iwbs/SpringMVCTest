@@ -42,13 +42,13 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login")
-	public String login(HttpSession session, ModelMap model) {
-		// model.addAttribute("pet", "kkkkk");
-		// session.setAttribute("petA", "abcbcvbcbcb");
+	public String login(RedirectAttributes redirectAttributes) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		/* The user is logged in :) */
-		if (!(auth instanceof AnonymousAuthenticationToken))
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			redirectAttributes.addFlashAttribute("username");
 			return "redirect:home";
+		}
 		return "login";
 	}
 
@@ -89,8 +89,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/")
-	public String empty(RedirectAttributes redirectAttributes) {
-		// redirectAttributes.addFlashAttribute("username");
+	public String empty() {
 		return "redirect:home";
 	}
 
